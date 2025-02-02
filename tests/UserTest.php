@@ -40,19 +40,36 @@ class UserTest extends TestCase
     {
         $user = new User;
 
-        // $user->email = 'sample1@test.com';
-        // $user->notify("Hello");
-
+        /** @var Mailer $mock_mailer */
         $mock_mailer = $this->createMock(Mailer::class);
-        $mock_mailer->expects($this->once())
-            ->method('sendMessage')
-            ->with($this->equalTo('sample3@test.com'), $this->equalTo('Hello'))
-            ->willReturn(true);
 
-        // $user->setMailer(new Mailer);
-        // todo fix error
+        $mock_mailer->expects($this->once())
+                    ->method('sendMessage')
+                    ->with($this->equalTo('sample3@test.com'), $this->equalTo('Hello'))
+                    ->willReturn(true);
+
         $user->setMailer($mock_mailer);
         $user->email = 'sample3@test.com';
         $this->assertTrue($user->notify("Hello"));
+        var_dump("test");
+    }
+    public function testCannotNotifyUserWithNoEmail()
+    {
+        $user = new User;
+
+        /** @var Mailer $mock_mailer */
+        $mock_mailer = $this->createMock(Mailer::class);
+
+        $mock_mailer->method('sendMessage')
+                    ->will($this->throwException(new Exception));
+
+        // $mock_mailer->expects($this->never())
+        //             ->method('sendMessage');
+
+        $user->setMailer($mock_mailer);
+
+        $this->expectException(Exception::class);
+
+        $this->assertFalse($user->notify("Hello"));
     }
 }

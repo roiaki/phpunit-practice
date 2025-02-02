@@ -52,7 +52,8 @@ class User
     }
 
     /**
-     * Send the user a message
+     * 
+     * 
      *
      * @param string $message The message
      *

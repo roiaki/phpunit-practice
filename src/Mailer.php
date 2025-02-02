@@ -17,7 +17,10 @@ class Mailer
      */
     public function sendMessage($email, $message)
     {
-        // Use mail() or PHPMailer for example
+        if(empty($email)) {
+            throw new Exception;
+        }
+
         sleep(3);
         echo "send '$message' to '$email'";
         return true;
