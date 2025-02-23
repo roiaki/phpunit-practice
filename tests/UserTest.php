@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 class UserTest extends TestCase
 {
     public function testReturnsFullName()
